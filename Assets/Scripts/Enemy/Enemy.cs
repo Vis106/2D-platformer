@@ -20,7 +20,7 @@ public class Enemy : MonoBehaviour
         else
             Movement.Move(_speed, Vector3.left, _currentPosition, gameObject, out Vector3 between);
 
-        if (!ControlGround.CheckGround(_groundDetection, _groundCheckMask, GroundCheckRadius))
+        if (!GroundSensor.CheckGround(_groundDetection, _groundCheckMask, GroundCheckRadius))
             Movement.Flip(gameObject, ref _movingRight);
     }
 

@@ -35,7 +35,7 @@ public class Player : MonoBehaviour
 
         Movement.Move(_moveSpeed, SetDirection(), _currentPosition, gameObject, out Vector3 between);
         Animate(between.magnitude);
-        Animate(ControlGround.CheckGround(_groundCheckPoint, _groundCheckMask, GroundCheckRadius));
+        Animate(GroundSensor.CheckGround(_groundCheckPoint, _groundCheckMask, GroundCheckRadius));
 
         if (SetDirection().x < 0 && !_movingRight)
         {
@@ -49,7 +49,7 @@ public class Player : MonoBehaviour
         }
 
         if (SetDirection().y > 0)
-            Movement.Jump(_rigidBody, _jumpForce, ControlGround.CheckGround(_groundCheckPoint, _groundCheckMask, GroundCheckRadius));
+            Movement.Jump(_rigidBody, _jumpForce, GroundSensor.CheckGround(_groundCheckPoint, _groundCheckMask, GroundCheckRadius));
     }
 
     public void ReturnToStart()
