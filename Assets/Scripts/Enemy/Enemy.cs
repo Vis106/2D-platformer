@@ -2,26 +2,17 @@ using UnityEngine;
 
 public class Enemy : MonoBehaviour
 {
-    [SerializeField] private float _speed;
-    [SerializeField] private Transform _groundDetection;
-    [SerializeField] private LayerMask _groundCheckMask;
+    [SerializeField] private GroundSensor _groundSensor;
+    [SerializeField] private Movement _movement;
 
     private Vector3 _currentPosition;
     private bool _movingRight = true;
-
-    private const float GroundCheckRadius = 0.2F;
+    private byte flipCount = 0;
 
     private void Update()
     {
         _currentPosition = transform.position;
-
-        if (_movingRight)
-            Movement.Move(_speed, Vector3.right, _currentPosition, gameObject, out Vector3 between);
-        else
-            Movement.Move(_speed, Vector3.left, _currentPosition, gameObject, out Vector3 between);
-
-        if (!GroundSensor.CheckGround(_groundDetection, _groundCheckMask, GroundCheckRadius))
-            Movement.Flip(gameObject, ref _movingRight);
+        Patrol(_currentPosition);
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -33,5 +24,22 @@ public class Enemy : MonoBehaviour
     private void Die()
     {
         gameObject.SetActive(false);
+    }
+
+    private void Patrol(Vector3 currentPosition)
+    {
+        if (_movingRight)
+            _movement.Move(Vector3.right, currentPosition, gameObject, out Vector3 _);
+        else
+            _movement.Move(Vector3.left, currentPosition, gameObject, out Vector3 _);
+
+        if (_groundSensor.IsGrounded())
+            flipCount = 0;
+
+        if (!_groundSensor.IsGrounded() && flipCount == 0)
+        {
+            _movement.Flip(gameObject, ref _movingRight);
+            flipCount = +1;
+        }
     }
 }

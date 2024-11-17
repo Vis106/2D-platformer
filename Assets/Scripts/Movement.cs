@@ -1,8 +1,11 @@
 using UnityEngine;
 
-public static class Movement
+public class Movement : MonoBehaviour
 {
-    public static void Move(float _moveSpeed, Vector3 direction, Vector3 _currentPosition, GameObject gameObject, out Vector3 between)
+    [SerializeField] private float _moveSpeed;
+    [SerializeField] private float _jumpForce;
+
+    public void Move(Vector3 direction, Vector3 _currentPosition, GameObject gameObject, out Vector3 between)
     {
         Vector3 move = new Vector3(direction.x, direction.y);
 
@@ -16,15 +19,15 @@ public static class Movement
         between = newPosition - _currentPosition;
     }
 
-    public static void Jump(Rigidbody2D rigidBody, float jumpForce, bool isGrounded)
+    public void Jump(Rigidbody2D rigidBody, bool isGrounded)
     {
         if (isGrounded)
         {
-            rigidBody.AddForce(Vector2.up * jumpForce, ForceMode2D.Force);
+            rigidBody.AddForce(Vector2.up * _jumpForce, ForceMode2D.Force);
         }
     }
 
-    public static void Flip(GameObject gameObject, ref bool movingRight)
+    public void Flip(GameObject gameObject, ref bool movingRight)
     {
         Vector3 currentScale = gameObject.transform.localScale;
         currentScale.x *= -1;

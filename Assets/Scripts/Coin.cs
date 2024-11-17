@@ -2,11 +2,9 @@ using UnityEngine;
 
 public class Coin : MonoBehaviour
 {
-    private void OnTriggerEnter2D(Collider2D collision)
+    public void Collect()
     {
-        if (collision.TryGetComponent<Player>(out Player _))
-        {
-            gameObject.SetActive(false);
-        }
+        gameObject.SetActive(false);
+
     }
 }
