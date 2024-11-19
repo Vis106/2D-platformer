@@ -14,7 +14,7 @@ public class Player : MonoBehaviour
     private Vector3 _direction;
     private Vector3 _currentPosition;
 
-    private void Start()
+    private void Awake()
     {
         _rigidBody = GetComponent<Rigidbody2D>();
         _animator = GetComponent<Animator>();
@@ -25,17 +25,17 @@ public class Player : MonoBehaviour
         _currentPosition = transform.position;
         _direction = _playerInput.InputDirection();
 
-        _movement.Move(_direction, _currentPosition, gameObject, out Vector3 between);
+        _movement.Move(_direction, _currentPosition, out Vector3 between);
         Animate(between.magnitude);
         Animate(_groundSensor.IsGrounded());
 
         if (_direction.x < 0 && !_movingRight)
         {
-            _movement.Flip(gameObject, ref _movingRight);
+            _movement.Flip(ref _movingRight);
         }
         else if (_direction.x > 0 && _movingRight)
         {
-            _movement.Flip(gameObject, ref _movingRight);
+            _movement.Flip(ref _movingRight);
         }
 
         if (_direction.y > 0)

@@ -7,7 +7,7 @@ public class Enemy : MonoBehaviour
 
     private Vector3 _currentPosition;
     private bool _movingRight = true;
-    private byte flipCount = 0;
+    private byte _flipCount = 0;
 
     private void Update()
     {
@@ -29,17 +29,17 @@ public class Enemy : MonoBehaviour
     private void Patrol(Vector3 currentPosition)
     {
         if (_movingRight)
-            _movement.Move(Vector3.right, currentPosition, gameObject, out Vector3 _);
+            _movement.Move(Vector3.right, currentPosition, out Vector3 _);
         else
-            _movement.Move(Vector3.left, currentPosition, gameObject, out Vector3 _);
+            _movement.Move(Vector3.left, currentPosition, out Vector3 _);
 
         if (_groundSensor.IsGrounded())
-            flipCount = 0;
+            _flipCount = 0;
 
-        if (!_groundSensor.IsGrounded() && flipCount == 0)
+        if (!_groundSensor.IsGrounded() && _flipCount == 0)
         {
-            _movement.Flip(gameObject, ref _movingRight);
-            flipCount = +1;
+            _movement.Flip(ref _movingRight);
+            _flipCount = +1;
         }
     }
 }
